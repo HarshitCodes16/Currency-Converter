@@ -1,0 +1,91 @@
+*{
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+
+body{
+    background-color: #e5e5e5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+main{
+    height: 55vh;
+    width: 45vh;
+    border: 1px solid black;
+    background-color: #ffffff;
+    border-radius: 2rem;
+    padding: 1rem;
+}
+
+.from-exhg-to{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 1.5rem;
+}
+
+.exchg img{
+    height: 50px;
+    width: 50px;
+}
+
+label{
+    font-size: 1.4rem;
+}
+
+.value{
+    margin-top: 1.3rem;
+    font-size: 1.5 rem;
+    gap: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+.value label{
+    text-align: left;
+}
+
+.value input{
+    padding: 8px 6px;
+    border: 1px solid black;
+    border-radius: 0.5rem;
+}
+
+.heading{
+    margin-top: 1rem;
+    color: #14213d;
+}
+
+.msg-container{
+    margin: 1.3rem
+}
+
+.msg-container p{
+    font-size: 1.2rem;
+}
+
+button{
+    padding: 0.5rem;
+    font-size: 1.2rem;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    background-color: #fca311;
+    color: #14213d;
+}
+
+button:hover {
+    background-color: #e69500;
+    cursor: pointer;
+    transform: scale(1.03);
+}
+
+
+.from .img, .to .img {
+    margin-top: 8px;
+}
+
+

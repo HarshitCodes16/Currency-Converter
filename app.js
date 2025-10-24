@@ -10,38 +10,22 @@ let selectedTo = "AED";
 let msg = document.querySelector(".msg-container p");
 let exchg = document.querySelector(".exchg img");
 
-function populateFromDropdown(isAllOptions) {
-    selectFrom.innerHTML = "";
-    if (isAllOptions) {
-        for (let code in codes) {
+function populateFromDropdown() {
+    for (let code in codes) {
             let option = document.createElement("option");
             option.value = code;
             option.textContent = code;
             selectFrom.appendChild(option);
         }
-    } else {
-        let option = document.createElement("option");
-        option.value = "EUR";
-        option.textContent = "EUR";
-        selectFrom.appendChild(option);
-    }
 }
 
-function populateToDropdown(isAllOptions) {
-    selectTo.innerHTML = "";
-    if (isAllOptions) {
-        for (let code in codes) {
+function populateToDropdown() {
+    for (let code in codes) {
             let option = document.createElement("option");
             option.value = code;
             option.textContent = code;
             selectTo.appendChild(option);
         }
-    } else {
-        let option = document.createElement("option");
-        option.value = "EUR";
-        option.textContent = "EUR";
-        selectTo.appendChild(option);
-    }
 }
 
 function updateFlags() {
@@ -75,24 +59,16 @@ async function getAmt(amount) {
         return;
     }
 
-    const response = await fetch("https://latest.currency-api.pages.dev/v1/currencies/eur.json");
+    const response = await fetch(`https://latest.currency-api.pages.dev/v1/currencies/${selectedFrom.toLowerCase()}.json`);
     const data = await response.json();
+    console.log(data);
 
     let resultText = "";
 
-    if (selectedFrom === "EUR") {
-        let rate = data.eur[selectedTo.toLowerCase()];
+    let rate = data[selectedFrom.toLowerCase()][selectedTo.toLowerCase()];
         resultText = rate
-            ? `${amount} EUR = ${(rate * amount).toFixed(2)} ${selectedTo}`
+            ? `${amount} ${selectedFrom} = ${(rate * amount).toFixed(2)} ${selectedTo}`
             : "Conversion rate not found.";
-    } else if (selectedTo === "EUR") {
-        let rate = data.eur[selectedFrom.toLowerCase()];
-        resultText = rate
-            ? `${amount} ${selectedFrom} = ${(amount / rate).toFixed(2)} EUR`
-            : "Conversion rate not found.";
-    } else {
-        resultText = "Conversion only possible between EUR and another currency.";
-    }
 
     msg.innerText = resultText;
 }
@@ -111,15 +87,6 @@ exchg.addEventListener("click", (event) => {
     // Swap values
     [selectedFrom, selectedTo] = [selectedTo, selectedFrom];
 
-    // Toggle dropdown options
-    if (selectedFrom === "EUR") {
-        populateFromDropdown(false);
-        populateToDropdown(true);
-    } else {
-        populateFromDropdown(true);
-        populateToDropdown(false);
-    }
-
     // Set selected
     selectFrom.value = selectedFrom;
     selectTo.value = selectedTo;
@@ -131,10 +98,11 @@ exchg.addEventListener("click", (event) => {
 
 // --- INITIAL LOAD ---
 window.addEventListener("DOMContentLoaded", () => {
-    populateFromDropdown(false); // From: only EUR
-    populateToDropdown(true);    // To: all currencies
+    populateFromDropdown(); // From: all currencies
+    populateToDropdown();    // To: all currencies
     selectFrom.value = "EUR";
     selectTo.value = selectedTo;
     updateFlags();
-    // Optionally, you can show an initial conversion if you want, or leave blank.
 });
+
+
